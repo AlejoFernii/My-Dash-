@@ -36,48 +36,46 @@ class User:
         result = connectToMySQL(cls.DB).query_db(query, data)
 
         return cls(result[0])
+    
+    @classmethod
+    def get_user_with_convos(cls,data):
+        query = "SELECT * FROM convos JOIN users ON convos.user_id = users.id WHERE convos.id = %(id)s;"
 
-    # @classmethod
-    # def get_user_with_all_rides(cls, data):
-    #     query = "SELECT * FROM users LEFT JOIN rides ON users.id=rides.rider_id WHERE users.id = %(id)s;"
+        result = connectToMySQL(cls.DB).query_db(query,data)
 
-    #     results = connectToMySQL(cls.DB).query_db(query, data)
 
-        
-    #     all_rides = []
-    #     for row in results:
+        for row in result:
 
-    #         user_data = {
-    #         'id': row['id'],
-    #         'first_name': row['first_name'],
-    #         'last_name': row['last_name'],
-    #         'profession': row['profession'],
-    #         'email': row['email'],
-    #         'pw': row['pw'],
-    #         'created_at': row['created_at'],
-    #         'updated_at': row['updated_at'],
-    #     }
-    #         req_ride = cls(row)
+            one_convo = cls(row)
+
+            user_data = {
+                'id':row['users.id'],
+                'first_name':row['first_name'],
+                'last_name':row['last_name'],
+                'email':row['email'],
+                'profession':row['profession'],
+                'pw':row['pw'],
+                'created_at':row['users.created_at'],
+                'updated_at':row['users.updated_at'],
+                'pic_url':row['pic_url'],
+            }
+
+            one_user = user.User(user_data)
+            one_convo.creator = one_user
+            date_data = {'id':row['id']}
+            posted_at = cls.get_time_posted(date_data) 
+            one_convo.created_at = posted_at
+            convo_id = {
+                'convo_id':row['id']
+            }
             
+            all_comments = comment.Comment.get_all_from_convo(convo_id)
+            for one_comment in all_comments:
 
-    #         ride_data = {
-    #             "id": row['rides.id'],
-    #             "rider_id": row['rider_id'],
-    #             "date": row['date'],
-    #             "pick_up": row['pick_up'],
-    #             "destination": row['destination'],
-    #             "details": row['details'],
-    #             "created_at": row['rides.created_at'],
-    #             "updated_at": row['rides.updated_at']
-    #         }
-    #         one_ride = ride.Ride(ride_data)
-            
-
-    #         req_ride.rides.append(one_ride)
-    #         all_rides.append(req_ride)
+                one_convo.comments.append(one_comment)
 
 
-    #     return all_rides
+        return one_convo
 
     @classmethod
     def get_all(cls):

@@ -8,7 +8,7 @@ class Network:
 
     def __init__(self, data):
         self.id = data['id']
-        self.user_id = data['user_id']
+        self.users_id = data['users_id']
         self.network = data['network']
         self.url = data['url']
         self.created_at = data['created_at']
@@ -16,13 +16,13 @@ class Network:
 
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO networks (user_id, network, url) VALUES (%(user_id)s, %(network)s, %(url)s)"
+        query = "INSERT INTO networks (users_id, network, url) VALUES (%(user_id)s, %(network)s, %(url)s)"
 
         return connectToMySQL(cls.DB).query_db(query, data)
 
     @classmethod
     def get_all_from_user(cls, data):
-        query = "SELECT * FROM networks WHERE user_id = %(user_id)s;"
+        query = "SELECT * FROM networks WHERE users_id = %(user_id)s;"
 
         results = connectToMySQL(cls.DB).query_db(query, data)
 
