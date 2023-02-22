@@ -79,7 +79,7 @@
                     {% if profile_user.profession == 'None' %}
                     <form id="add-profession" method="post">
                         {% with prof_messages = get_flashed_messages(category_filter=["prof"]) %}
-                        {% if network_messages %}
+                        {% if prof_messages %}
                         {% for message in prof_messages %}
                         <p class="flash-small">{{ message }}</p>
                         {% endfor %}
@@ -95,7 +95,7 @@
                     {% else %}
                     <form id="add-profession" method="post">
                         {% with prof_messages = get_flashed_messages(category_filter=["prof"]) %}
-                        {% if network_messages %}
+                        {% if prof_messages %}
                         {% for message in prof_messages %}
                         <p class="flash-small">{{ message }}</p>
                         {% endfor %}
@@ -120,6 +120,7 @@
                             <button type="button" onclick="addNetwork(this)"
                                 class="btn-add funcBtn btn btn-sm btn-info btn-outline-light">+</button>
                             <input type="hidden" name="user_id" value="{{current_user.id}}" form="network-form">
+                            {% endif %}
 
                         </div>
                         <div class="flex-column">
@@ -131,7 +132,6 @@
                             {% endif %}
                             {% endwith %}
 
-                            {% endif %}
                         </div>
 
                         <div class="network-links">

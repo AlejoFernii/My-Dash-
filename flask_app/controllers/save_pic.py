@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'flask_app/static/uploads/'
 
-app.secret_key = "secret key"
+app.secret_key = "I solomley swear that im up to no good."
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -47,11 +47,11 @@ def upload_image():
     all_links = network.Network.get_all_from_user(network_data)
 
     if 'file' not in request.files:
-        flash('No file part')
+        flash('No file part', 'pic')
         return redirect(request.url)
     file = request.files['file']
     if file.filename == '':
-        flash('No image selected for uploading')
+        flash('No image selected for uploading', 'pic')
         return redirect(request.url)
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
@@ -61,10 +61,11 @@ def upload_image():
         current_user.pic_url = pic
         user.User.save_user_pic(upload)
         #print('upload_image filename: ' + filename)
-        flash('Image successfully uploaded and displayed above')
-        return render_template('profile.html', filename=filename, current_user=current_user, profile_user=profile_user, all_convos=all_convos, all_projects=all_projects, all_skills=all_skills, all_links=all_links, pic=pic)
+        flash('Image successfully uploaded and displayed above', 'pic')
+        # return render_template('profile.html', filename=filename, current_user=current_user, profile_user=profile_user, all_convos=all_convos, all_projects=all_projects, all_skills=all_skills, all_links=all_links, pic=pic)
+        return redirect(f'/profile/{current_user.id}')
     else:
-        flash('Allowed image types are - png, jpg, jpeg, gif')
+        flash('Allowed image types are - png, jpg, jpeg, gif', 'pic')
         return redirect(request.url)
 
 # @app.route('/display/<filename>')

@@ -155,35 +155,7 @@ function popBack() {
 
 // COMMENTS
 
-function getComments(convo_id) {
-    data = { 'convo_id': convo_id }
-    fetch(`http://localhost:5000/get_comments/${convo_id}`)
-        .then(res => res.json())
-        .then(data => {
-            var container = document.getElementById('comment-feed')
-            for (c = 0; c < data.length; c++) {
-                var div = document.createElement('div')
-
-                var commentHead = document.createElement('div')
-
-                var comment = document.createElement('p')
-                comment.innerText = c.comment
-
-                div.append(comment)
-
-                container.append(div)
-
-            }
-        })
-}
-
-
 function showComments(e) {
-    // let response = await fetch(`http://localhost:5000/get_comments/${id}`);
-    // let coderData = await response.json();
-    // console.log(coderData)
-    // console.log(typeof(coderData))
-    // console.log("hello",convo_id)
 
     var form = document.getElementById('comment-form')
 
@@ -293,7 +265,7 @@ formProfession.onsubmit = function (e) {
 
     var form = new FormData(formProfession);
 
-    fetch("http://localhost:5000/update/profession", { method: 'POST', body: form })
+    fetch("https://18.209.63.35:5000/update/profession", { method: 'POST', body: form })
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -321,25 +293,11 @@ function changePic() {
 
     var sub = document.getElementById('submit');
     sub.setAttribute('type', 'submit')
+    sub.setAttribute('form', 'pic-form')
     // upload = document.createElement('input')
 }
 
-// var formPic = document.getElementById('pic-form');
-// formPic.onsubmit = function(e){
 
-//     e.preventDefault();
-
-//     var form = new FormData(formPic);
-
-//     fetch("http://localhost:5000/picture", { method :'POST', body : form})
-//         .then( response => response.json() )
-//         .then( data => {
-//             console.log(data) 
-//             FileUpload1 = data
-//             Fileuplaod1.saveAs(Server.Mappath("MyDash/flask_app/static/img") + FileUplaod1.FileName)
-//         })
-
-// }
 
 // ADD NETWORK LINK
 
@@ -417,24 +375,6 @@ function addSkill(e) {
     form.append(input, sub)
     e.replaceWith(form)
 }
-
-// var formSkill = document.getElementById('skill-form');
-//     formSkill.onsubmit = function(e){
-
-//     e.preventDefault();
-
-//     var form = new FormData(formSkill);
-
-//     fetch("http://localhost:5000/add/skill", { method :'POST', body : form})
-//         .then( response => response.json() )
-//         .then( data => {
-//             console.log(data) 
-//         })
-
-// }
-
-
-
 
 
 
